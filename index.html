@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Ulang Tahun</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6e6;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        nav {
+            width: 100%;
+            background-color: #d63384;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            margin-top: 50px; /* Memberi ruang untuk navbar */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d63384;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .photos {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .photos img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .left-photo {
+            transform: rotate(-10deg);
+        }
+
+        .right-photo {
+            transform: rotate(10deg);
+        }
+
+        .next-button,
+        .love-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #d63384;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .next-button:hover,
+        .love-button:hover {
+            background-color: #b52b6f;
+        }
+
+        .letter-animate {
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        By Arip
+    </nav>
+
+    <div class="container" onclick="showMessage()">
+        <img id="letter" src="surat.png" alt="Surat" width="200" class="letter-animate">
+        <div id="messageBox" class="hidden">
+            <div class="photos">
+                <img id="photo1" src="foto1.jpg" alt="Foto Kirana" class="left-photo">
+                <img id="photo2" src="foto2.jpg" alt="Foto Kirana" class="right-photo">
+            </div>
+            <p id="message" class="message">Selamat Ulang Tahun Kirana Larasati, cintaku manisku cantikku! 🎉💕</p>
+            <button class="next-button" onclick="nextMessage(event)">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let messages = [
+            "Selamat Ulang Tahun Kirana Larasati, cintaku manisku cantikku! 🎉💕",
+            "Semoga panjang umur, sehat selalu, dan bahagia! 💖",
+            "Semoga kita langgeng terus dan makin sayang satu sama lain! 😘",
+            "Aku bersyukur punya kamu di hidupku! 💕",
+            "I love you! 💖" // Menambahkan pesan I love you
+        ];
+        let photos = [
+            ["foto1.jpg", "foto2.jpg"],
+            ["foto3.jpg", "foto4.jpg"],
+            ["foto5.jpg", "foto6.jpg"],
+            ["foto7.jpg", "foto8.jpg"],
+            ["foto9.png", "foto10.jpg"] // Menambahkan foto untuk pesan I love you
+        ];
+        let currentMessage = 0;
+
+        function showMessage() {
+            let letter = document.getElementById('letter');
+            letter.style.display = 'none';
+            let messageBox = document.getElementById('messageBox');
+            messageBox.classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('message').classList.add('fade-in');
+                document.querySelector('.photos').classList.add('fade-in');
+                document.querySelectorAll('.photos img').forEach((img) => {
+                    img.classList.add('fade-in');
+                });
+            }, 200);
+        }
+
+        function nextMessage(event) {
+            event.stopPropagation();
+            if (currentMessage < messages.length - 1) {
+                let message = document.getElementById('message');
+                let photo1 = document.getElementById('photo1');
+                let photo2 = document.getElementById('photo2');
+
+                currentMessage++;
+                message.textContent = messages[currentMessage];
+                photo1.src = photos[currentMessage][0];
+                photo2.src = photos[currentMessage][1];
+
+                message.classList.remove('fade-in');
+                photo1.classList.remove('fade-in');
+                photo2.classList.remove('fade-in');
+
+                setTimeout(() => {
+                    message.classList.add('fade-in');
+                    photo1.classList.add('fade-in');
+                    photo2.classList.add('fade-in');
+                }, 200);
+            }
+
+            // Setelah pesan "I love you", ganti tombol Next menjadi Balas
+            if (currentMessage === messages.length - 1) {
+                let nextButton = document.querySelector('.next-button');
+                nextButton.textContent = 'Balas'; // Ubah teks tombol Next jadi Balas
+                nextButton.onclick = function () {
+                    window.location.href = "https://wa.me/6282178618877?text=i%2love%2you%2toooooo"; // Ganti dengan nomor WhatsApp kamu
+                };
+            }
+        }
+    </script>
+</body>
+
+</html>
